@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+ 
+  "levels": {
+    "level_1_domains": [
+      "Governance",
+      "Finance",
+      "Operations",
+      "Legal & Compliance",
+      "HR",
+      "IT & Systems",
+      "Sales & Commercial",
+      "Procurement & Supply Chain",
+      "Project Management",
+      "Strategy & Planning",
+      "Technical Documentation",
+      "Customer / External"
+    ],
+ 
+    "level_2_document_categories": {
+      "Structured Documents": [
+        "Policy",
+        "SOP",
+        "Work Instruction",
+        "Guideline",
+        "Framework",
+        "Standard"
+      ],
+      "Financial": [
+        "Invoice",
+        "Budget",
+        "Forecast",
+        "Financial Statement",
+        "Tax Document",
+        "Audit Report"
+      ],
+      "Legal": [
+        "Contract",
+        "NDA",
+        "Agreement",
+        "Regulatory Filing",
+        "License",
+        "Compliance Report"
+      ],
+      "Operational": [
+        "Report",
+        "Dashboard Export",
+        "Meeting Minutes",
+        "Email Archive",
+        "Presentation",
+        "Checklist"
+      ],
+      "Technical": [
+        "API Spec",
+        "Architecture Document",
+        "Code Doc",
+        "Configuration Guide",
+        "System Manual"
+      ],
+      "Project": [
+        "Project Charter",
+        "Risk Register",
+        "Timeline",
+        "Status Report",
+        "Business Case"
+      ]
+    },
+ 
+    "level_3_functional_tags": [
+      "Department",
+      "Business Unit",
+      "Region",
+      "Product",
+      "Confidentiality Level",
+      "Date Range",
+      "Owner",
+      "Status (Draft / Final / Archived)"
+    ]
+  },
+ 
+  "labels": [
+    "Structured Documents/Policy",
+    "Structured Documents/SOP",
+    "Structured Documents/Work Instruction",
+    "Structured Documents/Guideline",
+    "Structured Documents/Framework",
+    "Structured Documents/Standard",
+ 
+    "Financial/Invoice",
+    "Financial/Budget",
+    "Financial/Forecast",
+    "Financial/Financial Statement",
+    "Financial/Tax Document",
+    "Financial/Audit Report",
+ 
+    "Legal/Contract",
+    "Legal/NDA",
+    "Legal/Agreement",
+    "Legal/Regulatory Filing",
+    "Legal/License",
+    "Legal/Compliance Report",
+ 
+    "Operational/Report",
+    "Operational/Dashboard Export",
+    "Operational/Meeting Minutes",
+    "Operational/Email Archive",
+    "Operational/Presentation",
+    "Operational/Checklist",
+ 
+    "Technical/API Spec",
+    "Technical/Architecture Document",
+    "Technical/Code Doc",
+    "Technical/Configuration Guide",
+    "Technical/System Manual",
+ 
+    "Project/Project Charter",
+    "Project/Risk Register",
+    "Project/Timeline",
+    "Project/Status Report",
+    "Project/Business Case"
+  ],
+ 
+  "domain_mapping_defaults": {
+    "Structured Documents": "Governance",
+    "Financial": "Finance",
+    "Legal": "Legal & Compliance",
+    "Operational": "Operations",
+    "Technical": "Technical Documentation",
+    "Project": "Project Management"
+  },
+ 
+  "hints": {
+    "Structured Documents/Policy": { "filename_contains": [], "keywords": [], "field_markers": [] },
+    "Structured Documents/SOP": { "filename_contains": [], "keywords": [], "field_markers": [] },
+    "Structured Documents/Work Instruction": { "filename_contains": [], "keywords": [], "field_markers": [] },
+    "Structured Documents/Guideline": { "filename_contains": [], "keywords": [], "field_markers": [] },
+    "Structured Documents/Framework": { "filename_contains": [], "keywords": [], "field_markers": [] },
+    "Structured Documents/Standard": { "filename_contains": [], "keywords": [], "field_markers": [] },
+ 
+    "Financial/Invoice": { "filename_contains": ["invoice"], "keywords": ["invoice"], "field_markers": ["invoice"] },
+    "Financial/Budget": { "filename_contains": ["budget"], "keywords": ["budget"], "field_markers": ["budget"] },
+    "Financial/Forecast": { "filename_contains": ["forecast"], "keywords": ["forecast"], "field_markers": ["forecast"] },
+    "Financial/Financial Statement": { "filename_contains": ["financial statement"], "keywords": ["financial statement"], "field_markers": ["financial statement"] },
+    "Financial/Tax Document": { "filename_contains": ["tax"], "keywords": ["tax"], "field_markers": ["tax"] },
+    "Financial/Audit Report": { "filename_contains": ["audit"], "keywords": ["audit"], "field_markers": ["audit"] },
+ 
+    "Legal/Contract": { "filename_contains": ["contract"], "keywords": ["contract"], "field_markers": ["contract"] },
+    "Legal/NDA": { "filename_contains": ["nda"], "keywords": ["nda"], "field_markers": ["nda"] },
+    "Legal/Agreement": { "filename_contains": ["agreement"], "keywords": ["agreement"], "field_markers": ["agreement"] },
+    "Legal/Regulatory Filing": { "filename_contains": ["regulatory"], "keywords": ["regulatory"], "field_markers": ["regulatory"] },
+    "Legal/License": { "filename_contains": ["license"], "keywords": ["license"], "field_markers": ["license"] },
+    "Legal/Compliance Report": { "filename_contains": ["compliance"], "keywords": ["compliance"], "field_markers": ["compliance"] },
+ 
+    "Operational/Report": { "filename_contains": ["report"], "keywords": ["report"], "field_markers": ["report"] },
+    "Operational/Dashboard Export": { "filename_contains": ["dashboard"], "keywords": ["dashboard"], "field_markers": ["dashboard"] },
+    "Operational/Meeting Minutes": { "filename_contains": ["meeting"], "keywords": ["meeting"], "field_markers": ["meeting"] },
+    "Operational/Email Archive": { "filename_contains": ["email"], "keywords": ["email"], "field_markers": ["email"] },
+    "Operational/Presentation": { "filename_contains": ["presentation"], "keywords": ["presentation"], "field_markers": ["presentation"] },
+    "Operational/Checklist": { "filename_contains": ["checklist"], "keywords": ["checklist"], "field_markers": ["checklist"] },
+ 
+    "Technical/API Spec": { "filename_contains": ["api"], "keywords": ["api"], "field_markers": ["api"] },
+    "Technical/Architecture Document": { "filename_contains": ["architecture"], "keywords": ["architecture"], "field_markers": ["architecture"] },
+    "Technical/Code Doc": { "filename_contains": ["code"], "keywords": ["code"], "field_markers": ["code"] },
+    "Technical/Configuration Guide": { "filename_contains": ["configuration"], "keywords": ["configuration"], "field_markers": ["configuration"] },
+    "Technical/System Manual": { "filename_contains": ["system"], "keywords": ["system"], "field_markers": ["system"] },
+ 
+    "Project/Project Charter": { "filename_contains": ["project charter"], "keywords": ["project charter"], "field_markers": ["project charter"] },
+    "Project/Risk Register": { "filename_contains": ["risk register"], "keywords": ["risk register"], "field_markers": ["risk register"] },
+    "Project/Timeline": { "filename_contains": ["timeline"], "keywords": ["timeline"], "field_markers": ["timeline"] },
+    "Project/Status Report": { "filename_contains": ["status report"], "keywords": ["status report"], "field_markers": ["status report"] },
+    "Project/Business Case": { "filename_contains": ["business case"], "keywords": ["business case"], "field_markers": ["business case"] }
+  }
+}

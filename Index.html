@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RAG Chatbot</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 40px;
+      background: #f4f4f4;
+    }
+    .chat-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 700px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+    }
+    button {
+      padding: 10px;
+    }
+    .response {
+      margin-top: 20px;
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+ 
+<body>
+ 
+<h2>🤖 RAG Chatbot</h2>
+ 
+<div class="chat-box">
+ 
+  <input id="query" placeholder="Ask your question..." />
+  <button onclick="ask()">Ask</button>
+ 
+  <div id="loading" style="display:none;">⏳ Thinking...</div>
+ 
+  <div id="response" class="response"></div>
+ 
+</div>
+ 
+<script>
+async function ask() {
+ 
+    const query = document.getElementById("query").value;
+ 
+    if (!query) return;
+ 
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("response").innerHTML = "";
+ 
+    try {
+        const res = await fetch("http://<YOUR_VM_IP>:8000/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ question: query })
+        });
+ 
+        const data = await res.json();
+ 
+        let sourcesHTML = "";
+ 
+        if (data.sources && data.sources.length > 0) {
+            sourcesHTML = "<ul>";
+            data.sources.forEach(s => {
+                sourcesHTML += `<li>${s.file} | ${s.category}</li>`;
+            });
+            sourcesHTML += "</ul>";
+        }
+ 
+        document.getElementById("response").innerHTML = `
+            <b>Answer:</b> ${data.answer}<br><br>
+            <b>Confidence:</b> ${data.confidence}<br><br>
+            <b>Sources:</b> ${sourcesHTML}
+        `;
+ 
+    } catch (err) {
+        document.getElementById("response").innerHTML = "❌ Error connecting to API";
+    }
+ 
+    document.getElementById("loading").style.display = "none";
+}
+</script>
+ 
+</body>
+</html>
