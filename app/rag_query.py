@@ -92,7 +92,7 @@ def classify_query(query):
 # -------------------------------------------------
  
 async def call_llm(prompt, retries=3):
-    async with httpx.AsyncClient(timeout=300.0) as client:
+    async with httpx.AsyncClient(timeout=None) as client:  # remove timeout
         for attempt in range(retries):
             try:
                 res = await client.post(
@@ -104,19 +104,18 @@ async def call_llm(prompt, retries=3):
                     }
                 )
  
+                print("STATUS:", res.status_code)
+                print("RAW:", res.text)
+ 
                 res.raise_for_status()
                 data = res.json()
  
-                if "response" not in data:
-                    logging.error(f"Invalid LLM response: {data}")
-                    continue
- 
-                return data["response"]
+                return data.get("response", "No response")
  
             except Exception as e:
                 logging.error(f"LLM attempt {attempt+1} failed: {e}")
  
-    return "LLM failed. Try again."
+    return "LLM failed completely"
  
 # -------------------------------------------------
 # QUERY EXPANSION
@@ -192,28 +191,116 @@ def calculate_confidence(scores):
 # -------------------------------------------------
 # PROMPT
 # -------------------------------------------------
- 
 def build_prompt(query, docs):
-    context = "\n\n".join([d.page_content[:800] for d in docs])
+    """
+    Forces JSON-only output with this schema:
+ 
+    {
+      "answer": "...",
+      "department": "...",
+      "category": "...",
+      "source": "...",
+      "domain": "...",
+      "doc_category": "...",
+      "label": "..."
+    }
+ 
+    Notes:
+    - JSON cannot contain duplicate keys. So we use "category" for business category
+      and "doc_category" for the document metadata category.
+    - Values must be derived ONLY from context/metadata; otherwise "Unknown".
+    """
+ 
+    context_blocks = []
+    for i, d in enumerate(docs):
+        meta = getattr(d, "metadata", {}) or {}
+ 
+        src = meta.get("source", f"doc_{i+1}")
+        dom = meta.get("domain", "Unknown")
+        cat = meta.get("category", "Unknown")
+        label = meta.get("label", "Unknown")
+ 
+        text = (d.page_content or "").strip()
+        snippet = text[:800]
+ 
+        context_blocks.append(
+            f"[DOC {i+1}] source={src} | domain={dom} | category={cat} | label={label}\n"
+            f"{snippet}"
+        )
+ 
+    context = "\n\n".join(context_blocks)
  
     return f"""
-You are an enterprise AI assistant.
+You are a highly accurate Enterprise AI Assistant designed for document-based question answering.
  
-STRICT RULES:
-- Use ONLY provided context
-- If answer not present → say "I don't know"
-- Do NOT guess
-- Do NOT add external knowledge
+=====================
+🔒 STRICT RULES
+=====================
+1. Use ONLY the provided context to answer.
+2. Do NOT use external knowledge.
+3. If the answer is not found in the context, set:
+   "answer": "I don't know based on the provided documents"
+4. Do NOT guess or assume anything.
+5. Do NOT fabricate data.
+6. Output MUST be valid JSON ONLY (no markdown, no extra text).
+7. JSON keys MUST appear exactly as specified below.
  
-Context:
+=====================
+📚 CONTEXT
+=====================
 {context}
  
-Question:
+=====================
+❓ USER QUESTION
+=====================
 {query}
  
-Answer:
-"""
+=====================
+🧠 OUTPUT FORMAT (STRICT JSON)
+=====================
+Return ONLY one JSON object with EXACTLY these keys:
  
+1) "answer":
+   - Answer using ONLY the context.
+   - If not found, use EXACT fallback:
+     "I don't know based on the provided documents"
+ 
+2) "department":
+   - Use the best matching document's metadata "domain" as department IF no explicit department exists.
+   - If department is not determinable, set "Unknown".
+   - Do NOT invent.
+ 
+3) "category":
+   - This is the BUSINESS category (e.g., Dispatch).
+   - Prefer extracting from the document text if explicitly stated.
+   - If not explicitly stated, use best matching document's metadata category if it represents business category.
+   - Otherwise "Unknown".
+ 
+4) "source":
+   - Use best matching document metadata "source".
+   - Otherwise "Unknown".
+ 
+5) "domain":
+   - Use best matching document metadata "domain".
+   - Otherwise "Unknown".
+ 
+6) "doc_category":
+   - Use best matching document metadata "category" (document classification category).
+   - Otherwise "Unknown".
+ 
+7) "label":
+   - Use best matching document metadata "label".
+   - Otherwise "Unknown".
+ 
+IMPORTANT:
+- Choose the SINGLE most relevant document from the context blocks to populate source/domain/doc_category/label.
+- Keep strings as plain text. No extra fields. No trailing commentary.
+ 
+=====================
+✅ RESPONSE (JSON ONLY)
+=====================
+""".strip()
+
 # -------------------------------------------------
 # MAIN PIPELINE
 # -------------------------------------------------
