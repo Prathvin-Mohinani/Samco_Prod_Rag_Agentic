@@ -13,3 +13,4 @@ faiss-cpu
 torch
 requests
 python-multipart
+sentence-transformers
