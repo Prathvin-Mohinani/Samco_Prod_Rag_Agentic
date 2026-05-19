@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VECTOR_DB_PATH = os.path.join(BASE_DIR, "vector_store")
 CATEGORY_PATH = os.path.join(BASE_DIR, "data", "category.json")
  
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://4.210.114.244:11434/api/generate"
 OLLAMA_MODEL = "llama3:8b"
  
 TOP_K = 20
