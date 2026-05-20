@@ -27,7 +27,7 @@ CATEGORY_PATH = os.path.join(BASE_DIR, "data", "category.json")
  
 # IMPORTANT:
 # Replace localhost with your Azure VM Private IP if running from Azure Web App
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://4.210.114.244:11434/api/generate"
  
 OLLAMA_MODEL = "llama3:8b"
  
