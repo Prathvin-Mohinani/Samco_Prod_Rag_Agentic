@@ -33,7 +33,7 @@ OLLAMA_MODEL = "llama3:8b"
  
 TOP_K = 20
 FINAL_TOP_K = 5
-CONFIDENCE_THRESHOLD = 0.35
+CONFIDENCE_THRESHOLD = 0.25
  
 # -------------------------------------------------
 # LOAD CATEGORY
@@ -314,7 +314,7 @@ def build_prompt(query, docs):
  
         text = (d.page_content or "").strip()
  
-        snippet = text[:800]
+        snippet = text[:2500]
  
         context_blocks.append(
             f"""
